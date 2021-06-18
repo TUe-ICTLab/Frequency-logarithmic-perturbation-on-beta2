@@ -1,4 +1,4 @@
-function [xoV,woV] = changeGaussInterval(P)
+function [xoV,woV,N_steps] = changeGaussInterval(P)
 %%%% This function adjusts the normalized quadrature weights 
 %%%% to the fiber length intervals
 
@@ -24,6 +24,14 @@ bpa_vec = bma_vec+Lv(1:end-1);
 woV = (bma_vec.')*wo;
 xoV = (bma_vec.')*xo+(bpa_vec.');
 
+% Transpose vectors to match integration dimensions
+% on the perturbation on gamma function
+xoV = xoV.';
+woV = woV.';
+
+% Number of steps in which the 
+% quadrature will be applied
+N_steps = ceil(L/dz);
 
 end
 

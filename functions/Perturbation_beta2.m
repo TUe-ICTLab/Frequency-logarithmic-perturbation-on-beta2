@@ -4,16 +4,18 @@ function [OutputPulseRP,OutputPulseFLP ] = Perturbation_beta2(S,P)
 % integrals
 %%% - Physicist NLSE 
 
+% Vinicius Oliari - <v.oliari.couto.dias@tue.nl>
+
 % Assign local variable names
 InitialPulse = S.E;
 FF          = S.f/1e12;
 L           = P.L;
 gamma_nl    = P.gamma_nl;
 beta2       = P.beta2;
-alpha_lin   = P.alpha_lin;
+Gvec        = P.Gvec;
 
 % Calculate the RP on beta2 pulse and the components A0 and A1
-[PulsePropRP,A0t,A1t] = calc_beta2RP(InitialPulse,alpha_lin,gamma_nl,beta2,L,FF);
+[PulsePropRP,A0t,A1t] = calc_beta2RP(InitialPulse,gamma_nl,beta2,L,FF,Gvec);
 OutputPulseRP = PulsePropRP;
 
 if nargout > 1
@@ -24,11 +26,11 @@ end
 
 end
 
-function [OutRP,A0t,A1t] = calc_beta2RP(InP_RP,alpha, gamma, beta2,z,FF)
+function [OutRP,A0t,A1t] = calc_beta2RP(InP_RP,gamma,beta2,z,FF,Gvec)
 
     % Calculate the function B(t,z) and sL, which is the 
     % phase rotation exp(1j*gamma*|A(t,0)|^2G(z))
-    [Btz,sL] = calc_Btz(InP_RP,alpha, gamma,z,FF);
+    [Btz,sL] = calc_Btz(InP_RP, gamma,z,FF,Gvec);
     
     % Apply the phase rotation to A0 and A1
     A0t = InP_RP.*sL;
@@ -62,23 +64,14 @@ function [OutFLP] = calc_beta2FLP(A0t,A1t,beta2)
 
 end
 
-function [Btz,sL] = calc_Btz(InP,alpha,gamma,z,FF)
+function [Btz,sL] = calc_Btz(InP,gamma,z,FF,Gvec)
 
-    % Calculate functions G, G1, G2, and G3
-    if alpha ~= 0
-        Gz  = (1-exp(-alpha*z))/alpha;
-        Gi  = (alpha*z+exp(-alpha*z)-1)/(alpha^2);
-        Gi2 = (2*alpha*z+4*exp(-alpha*z)-exp(-2*alpha*z)-3)/(2*alpha^3);
-        Gi3 = (6*alpha*z+18*exp(-alpha*z)...
-            -9*exp(-2*alpha*z)+2*exp(-3*alpha*z)-11)/(6*alpha^4);
-    else
-        % If in the loss-less case, the expressions are simpler
-        Gz  = z;
-        Gi  = (z^2)/2;
-        Gi2 = (z^3)/3;
-        Gi3 = (z^4)/4;
-    end
-    
+    % Get G functions
+    Gz  = Gvec(1);
+    Gi  = Gvec(2);
+    Gi2 = Gvec(3);
+    Gi3 = Gvec(4); 
+
     % Calcuate angular frequency W and its square W^2
     W  = 2*pi*FF;
     W2 = W.^2;

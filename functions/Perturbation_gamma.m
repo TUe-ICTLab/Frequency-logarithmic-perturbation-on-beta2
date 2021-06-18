@@ -9,7 +9,6 @@ function [OutputPulseRP,OutputPulseERP,OutputPulseLP] = Perturbation_gamma(S,P)
 
 % Change variables to a local name
 InitialPulse = S.E;
-dz          = P.dz_pert_gamma;
 L           = P.L;
 FF          = S.f/1e12;
 gamma_nl    = P.gamma_nl;
@@ -17,6 +16,7 @@ beta2       = P.beta2;
 xo          = P.xo;
 wo          = P.wo;
 alpha_lin   = P.alpha_lin;
+N_steps     = P.Gsteps;
 
 % Initialize A1 term
 PulseA1zt   = 0*InitialPulse;
@@ -25,23 +25,19 @@ PulseA1zt   = 0*InitialPulse;
 P0 = mean(abs(InitialPulse).^2); 
 Leff = (1-exp(-alpha_lin*L))/alpha_lin;
 
-% Number of steps in which the 
-% quadrature will be applied
-N_step = ceil(L/dz);
-
 % Input waveform in frequency domain
 IniPulseFreq = ifft(InitialPulse,[],2);
 
 % Pre-calculation for the chromatic dispersion operator
 w2beta2 = +1i/2*beta2*(2*pi*(FF)).^2;
 
-for kk = 1:N_step
+for kk = 1:N_steps
     
     % Get quadrature weights and positions 
     % relative to the kk-th step
-    woW = wo(kk,:);
-    xoW = xo(kk,:);
-    z = xoW.'; % Fiber length positions for integration
+    woW = wo(:,kk);
+    xoW = xo(:,kk);
+    z = xoW; % Fiber length positions for integration
     
     % Dispersion operators
     Hzf             = exp(+w2beta2.*z); % To obtain A0 at z (operator Dz)
@@ -60,7 +56,7 @@ for kk = 1:N_step
     PulseA1zt_I     = 1i*gamma_nl*ULzAAAconj.*exp(-alpha_lin*z);
     
     % Integrate with quadrature weights
-    PulseA1zt = PulseA1zt+sum(PulseA1zt_I.*woW.');
+    PulseA1zt = PulseA1zt+sum(PulseA1zt_I.*woW);
     
 end
 
