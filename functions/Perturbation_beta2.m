@@ -85,17 +85,11 @@ function [Btz,sL] = calc_Btz(InP,gamma,z,FF,Gvec)
     % Calculate first time derivative of input pulse
     DA  = fft(-1i*FInP.*W);
     
-    % Calculate |A(t,0)|^2
-    NA2   = InP.*conj(InP);
-
-    % Calculate |A(t,0)|^2 in frequency domain
-    FNA2 = ifft(NA2);
+    % Calculate second time derivative of |A(t,0)|^2 = A*conj(A)
+    D2NA2 = 2*real(D2A.*conj(InP))+2*abs(DA).^2;
     
-    % Calculate second time derivative of |A(t,0)|^2
-    D2NA2 = fft(-FNA2.*W2);
-    
-    % Calculate first time derivative of |A(t,0)|^2
-    DNA2  = fft(-1i*FNA2.*W);
+    % Calculate first time derivative of |A(t,0)|^2 = A*conj(A)
+    DNA2  = 2*real(conj(InP).*DA);
     
     % Calculate functions M, R and P
     Mt = (1j/2)*D2A;
