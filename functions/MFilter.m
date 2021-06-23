@@ -1,7 +1,5 @@
 function [OutSignal] = MFilter(InSignal,FiltS,FF)
-
-% MFilter - Vinicius Oliari - 29/01/2019
-%
+%%%%
 % This function filters an input signal according to a filter structure 
 % FiltS
 %
@@ -33,7 +31,7 @@ function [OutSignal] = MFilter(InSignal,FiltS,FF)
 %
 % OutSignal: Output Signal -> Desired filtered output signal (NxT1)
 %
-
+%%%%
 
 
 % Normalization of the frequencies (better accuracy for high frequencies)
