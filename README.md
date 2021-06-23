@@ -16,4 +16,5 @@ The code compare 5 different models in terms of normalized square deviation. Tho
 
 Running the file entitled "NSD_models.m" will generate the results of Fig. 3 of [1], excluding the curves relative to FLP on gamma and LP on β₂.
 
+Gaussian weights and positions were obtained from https://pomax.github.io/bezierinfo/legendre-gauss.html.
 
