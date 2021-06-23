@@ -5,6 +5,9 @@ function [xo,wo] = load_gauss(n)
 % 'n' is the number of quadrature points
 % 'wo' are the weights
 % 'xo' are the positions
+%
+% These weights and positions were obtained from 
+% https://pomax.github.io/bezierinfo/legendre-gauss.html
 
 switch n
     case 2
