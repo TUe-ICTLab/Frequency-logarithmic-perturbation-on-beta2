@@ -27,7 +27,7 @@ P.Nsymb    = 2^17;         % Number of Symbols
 P.sps      = 16;           % Samples per symbol
 
 P.NumSSFMsteps   = 70; 
-P.logFactor      = 0.4;
+P.logFactor      = 0.6;
 
 P.dz_pert_gamma   = 20;  % Km
 
