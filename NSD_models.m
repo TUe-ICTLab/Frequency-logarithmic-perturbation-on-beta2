@@ -1,8 +1,8 @@
 clear 
 close all
 
-%%% To run this code in the GPU, set GPUflag = 1 in the 
-% parameters file (default). To run in the CPU, set GPUflag = 0
+%%% To run this code in the GPU, set GPUFlag = 1 in the 
+% parameters file (default). To run in the CPU, set GPUFlag = 0
 
 % Add function's folder to the path
 addpath('./functions')
