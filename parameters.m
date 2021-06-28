@@ -1,15 +1,17 @@
 P.GPUFlag = 1; % Set if calculations are done in GPU
 
-P.FiberType = 'SMF-CBAND';
+% Select if transmission is in the C- or O-band
+% Acceptable values: 'SMF-CBAND' and 'SMF-OBAND'
+P.FiberType = 'SMF-CBAND';  
 
 if strcmp(P.FiberType,'SMF-CBAND')
     P.alphadB       = 0.2;      % Attenuation coef [dB/Km]
-    P.gamma_nl      = 1.2;     % Non-lin coef [1/(W km)]
+    P.gamma_nl      = 1.2;      % Non-lin coef [1/(W km)]
     P.beta2         = -21.67;   % GVD coef [ps^2/km]
 elseif strcmp(P.FiberType,'SMF-OBAND')
     P.alphadB       = 0.4;      % Attenuation coef [dB/Km]
-    P.gamma_nl      = 1.4;     % Non-lin coef [1/(W km)]
-    P.beta2         = -0.2;   % GVD coef [ps^2/km]
+    P.gamma_nl      = 1.4;      % Non-lin coef [1/(W km)]
+    P.beta2         = -0.2;     % GVD coef [ps^2/km]
 end
 
 P.L             = 20;       % Span Length [km]
@@ -17,7 +19,9 @@ P.Lsplit        = 1;        % Fiber length after splitter [km]
 
 P.alpha_lin   = P.alphadB/10*log(10);  % Attenuation [Np/m]
 
-P.SplitRatio  = 64;
+% Splitter split-ratio: signal power is divided by P.SplitRatio
+% after splitter
+P.SplitRatio  = 64; 
 
 P.modtype  = 'qam'; % Supports QAM and PSK
 
@@ -26,12 +30,16 @@ P.Rs       = 10e9;         % Symbol rate [Hz]
 P.Nsymb    = 2^17;         % Number of Symbols 
 P.sps      = 16;           % Samples per symbol
 
-P.NumSSFMsteps   = 70; 
-P.logFactor      = 0.6;
+P.NumSSFMsteps   = 70;     % Number of SSFM steps 
+P.logFactor      = 0.6;    % Correction factor for log steps
 
-P.dz_pert_gamma   = 20;  % Km
+% P.dz_pert_gamma is the length of the segments in which integration via 
+% Gaussian quadrature will be applied.
+% If P.dz_pert_gamma = P.L, only 1 segment of P.L km will be divided into 
+% P.N_gauss quadrature points
+P.dz_pert_gamma   = 20;  % [Km]
 
-P.N_gauss     =2;
+P.N_gauss = 2; % Number of quadrature points for Gaussian integration
 
 P.Filt.BW    = P.Rs;  % Filter bandwidth
 P.Filt.shape = 'RRC'; % Filter shape: RRC or Rect (sinc)

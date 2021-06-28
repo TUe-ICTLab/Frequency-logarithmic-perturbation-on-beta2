@@ -1,6 +1,9 @@
 clear 
 close all
 
+%%% To run this code in the GPU, set GPUflag = 1 in the 
+% parameters file (default). To run in the CPU, set GPUflag = 0
+
 % Add function's folder to the path
 addpath('./functions')
 
@@ -13,9 +16,6 @@ nsdflpb2    = zeros(size(InputPowerVector));
 nsdgamma    = zeros(size(InputPowerVector));
 nsderpgamma = zeros(size(InputPowerVector));
 nsdlpgamma  = zeros(size(InputPowerVector));
-nsdssfm1    = zeros(size(InputPowerVector));
-nsdssfm2    = zeros(size(InputPowerVector));
-nsdssfm3    = zeros(size(InputPowerVector));
 
 
 for pp = 1:length(InputPowerVector)
